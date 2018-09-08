@@ -1,0 +1,84 @@
+Lesson Notes
+abc…	Letters
+123…	Digits
+\d	    Any Digit
+\D  	Any Non-digit character
+.	    Any Character (any one character)
+\.	    Period (read only the dot)
+[abc]	Only a, b, or c
+[^abc]	Not a, b, nor c
+[a-z]	Characters a to z
+[0-9]	Numbers 0 to 9
+\w	    Any Alphanumeric character
+\W  	Any Non-alphanumeric character
+{m}	    m Repetitions
+{m,n}	m to n Repetitions =z{2,5} looking for z  min 2 to 5 
+*	    Zero or more repetitions
++	    One or more repetitions
+?	    Optional character
+\s	    Any Whitespace למצאו רווח 
+\S	    Any Non-whitespace character
+^…$	    Starts and ends
+(…)	    Capture Group
+(a(bc))	Capture Sub-group
+(.*)	Capture all
+(abc|def)	Matches abc or def
+
+
+{} מביא תווח 
+W{} מביא תווח של האות w 
+
+[]תמצא משבו בתוך הסוגריים האלו 
+
+^([^\.]+)\.pdf$ 
+Task	Text	Capture Groups	 
+Capture	file_record_transcript.pdf	=file_record_transcript	Success
+Capture	file_07241999.pdf	=file_07241999
+
+
+^((.+)\s(\d+))$:
+Capture	Jan 1987	(Jan 1987) (1987) Success
+Capture	May 1969	(May 1969) (1969)	Success
+Capture	Aug 2011	(Aug 2011) (2011)
+
+
+(([0-9]+)(\.|,)?)
+
+
+([a-z|0-9|\.?]+):
+Task	Text	Capture Groups	 
+Capture	tom@hogwarts.com	=tom	Success
+Capture	tom.riddle@hogwarts.com	=tom.riddle	Success
+Capture	tom.riddle+regexone@hogwarts.com=	tom.riddle	Success
+Capture	tom@hogwarts.eu.com=	tom	Success
+Capture	potter@hogwarts.com=	potter	Success
+Capture	harry@hogwarts.com	=harry	Success
+Capture	hermione+regexone@hogwarts.com=	hermione	Success
+
+<(\w+)>?:
+Capture	<a>This is a link</a>	a	Success
+Capture	<a href='https://regexone.com'>Link</a>	a	Success
+Capture	<div class='test_style'>Test</div>	div	Success
+Capture	<div>Hello <span>world</span></div>	div	Success
+
+
+(\w+)\.(jpg|png|gif)$:
+Skip	.bash_profile		To be completed
+Skip	workspace.doc		To be completed
+Capture	img0912.jpg	img0912 jpg	Success
+Capture	updated_img0912.png	updated_img0912 png	Success
+Skip	documentation.html		To be completed
+Capture	favicon.gif	favicon gif	Success
+Skip	img0912.jpg.tmp		To be completed
+Skip	access.lock
+
+
+1)List.(\w+)[(](\w+\.\w+):(\d+):
+2) (\w+)\(([\w\.]+):(\d+)\):
+Task	Text	Capture Groups	 
+Skip	W/dalvikvm( 1553): threadid=1: uncaught exception		To be completed
+Skip	E/( 1553): FATAL EXCEPTION: main		To be completed
+Skip	E/( 1553): java.lang.StringIndexOutOfBoundsException		To be completed
+Capture	E/( 1553):   at widget.List.makeView(ListView.java:1727)	makeView ListView.java 1727	To be completed
+Capture	E/( 1553):   at widget.List.fillDown(ListView.java:652)	fillDown ListView.java 652	To be completed
+Capture	E/( 1553):   at widget.List.fillFrom(ListView.java:709)	fillFrom ListView.java 709	

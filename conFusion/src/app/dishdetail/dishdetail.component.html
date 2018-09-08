@@ -1,0 +1,98 @@
+
+<div class="container"
+    fxLayout="row"
+    fxLayout.sm="column"
+    fxLayout.xs="column"
+    fxLayoutAlign.gt-md="space-around center"
+    fxLayoutGap="10px" 
+    fxLayoutGap.xs="0">
+
+  <div fxFlex="40" *ngIf="dish" fxLayout="column" [@visibility]="visibility" [@expand]>
+    <div >
+      <md-card >
+      <md-card-header>
+          <md-card-title>
+            <h3>{{dish.name |uppercase}}</h3>
+          </md-card-title>
+      </md-card-header>
+      <img md-card-image src="{{BaseURl+dish.image}}" alt="{{dish.name}}">
+      <md-card-content>
+        <P>{{dish.description }}</P>
+      </md-card-content>
+      <md-card-actions>
+          <button md-button [routerLink]="['/dishdetail', prev]">
+        <span class="fa fa-chevron-left fa-lg"></span>
+        </button>
+          <button md-button (click)="goBack()">Back</button> 
+        <button md-button>Like</button>
+        <button md-button>Share</button>
+        <span class="flex-spacer"></span>
+        <button md-button [routerLink]="['/dishdetail', next]">
+        <span  class="fa fa-chevron-right fa-lg"></span>
+        </button>
+      </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+ 
+
+  <div >
+  <md-card class="dishComments" fxFlex fxLayout="column" style="flex-direction:column"   [@visibility]="visibility" [@expand]>
+  <div *ngIf="dish">
+  <md-grid-list cols="1">
+    <h2>comments</h2>
+      <ul class="dishCommentslist">
+    <li *ngFor="let DishComment of dish.comments" >
+        <md-card-content>
+        <p><b>{{DishComment.comment}}</b></p>
+        <p><b>{{DishComment.rating}} Stars</b></p>
+        <p><b>{{DishComment.author}} , {{DishComment.date|date:'yyyy-MM-dd'}}</b></p>
+        <br>
+      </md-card-content>
+    </li>
+    </ul>
+    <span [hidden]="(formErrors.comment  || formErrors.author)">
+        <p><b>{{DishDetailsForm.value.author}}</b></p>
+        <p><b>{{DishDetailsForm.value.slider}} Stars</b></p>
+        <p><b>{{DishDetailsForm.value.comment}}</b></p>
+    </span>
+  </md-grid-list>
+  </div>
+
+
+  <form  novalidate *ngIf="dish" [formGroup]="DishDetailsForm" class="formtest" (ngSubmit)="onSubmit()">
+   <div>
+     <p>
+      <md-input-container class="half-width" 
+      dividerColor="{{formErrors.author ? 'warn' : 'primary'}}">
+       <input mdInput  formControlName="author" placeholder="Author" type="text" required>
+       <md-hint>
+          <span [hidden]="!(formErrors.author)">
+            {{formErrors.author}}</span>
+        </md-hint>
+      </md-input-container>
+
+      <md-slider flex class="md-warn" formControlName="slider" step="1" min="0" max="5"
+        thumbLabel tickInterval="1"  required></md-slider>
+
+      <md-input-container class="full-width"
+      dividerColor="{{formErrors.comment ? 'warn' : 'primary'}}">
+        <textarea mdInput  placeholder="Your comment" rows="10" formControlName="comment" type="textarea" required></textarea>
+        <md-hint>
+            <span [hidden]="!(formErrors.comment)">
+              {{formErrors.comment}}</span>
+          </md-hint>
+      </md-input-container>
+      <button type="submit" md-button class="background-primary text-floral-white" [disabled]="DishDetailsForm.invalid">Submit</button>
+    </p>
+    </div>
+    </form>
+</md-card>
+<div [hidden]="dish || errMess">
+    <md-spinner></md-spinner><h4>loading .... </h4>
+  </div>
+  <div *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+</div>
